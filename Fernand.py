@@ -64,7 +64,7 @@ podcast_index = 0
 # Youtube player
 youtube_player = Youtube_Player.youtube_player(instance,player)
 
-
+# Actions dict.
 actions_dict = {"hour" : {ACTION: get_hour, PARAMETERS: (time,)},
                 "date" : {ACTION: get_date, PARAMETERS: (time,)},
                 "weather": {ACTION: get_weather, PARAMETERS: (owm,)},
@@ -83,6 +83,7 @@ actions_dict = {"hour" : {ACTION: get_hour, PARAMETERS: (time,)},
                 "download audio":{ACTION:download_music,PARAMETERS:(youtube_player,)},
                 }
 
+# Actions triggers
 trigger_dict = {"hour": "Tell me the hour. What time is it.",
                 "date": "Tell me the date date. Which day is today.",
                 "weather": "Tell me the weather. How is the weather. How is the climate. Tell me the actual temperature. How is the weather today",
@@ -101,8 +102,10 @@ trigger_dict = {"hour": "Tell me the hour. What time is it.",
                 "download audio":"download audio from youtube.",
                 }
 
+# Maximal distance to closest centroid before asking cofirmation
 confirmation_threshold = 0.3
 
+# Centroids model location
 centroid_shelve_file_name = "centroids_shelve"
 
 # Personal Assistant
@@ -116,7 +119,7 @@ fernand = personal_assistant(word2vec_model_path,
                              centroid_shelve_file_name,
                              huge_w2v_model_path)
 
-
+# Running the personal asssistant
 for i in range(10000000):
     print i
     fernand.interactive_step()
