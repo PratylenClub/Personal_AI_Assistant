@@ -4,6 +4,12 @@ import time
 import feedparser
 from gtts import gTTS
 from unidecode import unidecode
+import smtplib
+from email.MIMEMultipart import MIMEMultipart
+from email.MIMEText import MIMEText
+from email.MIMEBase import MIMEBase
+from email import encoders
+import imaplib
 
 DEFAULT_RADIO = "http://direct.franceculture.fr/live/franceculture-midfi.mp3"
 DEFAULT_RSS = "http://feeds.bbci.co.uk/news/rss.xml?edition=uk#"
@@ -212,3 +218,66 @@ def previous_youtube_song(assistant,youtube_player):
 
 def turn_off(assistant):
     assistant.alive = False
+
+
+
+def read_message(assistant, instance_vlc, player_vlc, username, password, sender_of_interest=None):
+    imap = imaplib.IMAP4_SSL("imap.gmail.com", 993)
+    imap.login(username, password)
+    imap.select('INBOX')
+    if sender_of_interest is None:
+        status, response = imap.search(None, '(UNSEEN)')
+        unread_msg_nums = response[0].split()
+    else:
+        status, response = imap.search(None, '(UNSEEN)', '(FROM "%s")' % (sender_of_interest))
+        unread_msg_nums = response[0].split()
+    if unread_msg_nums:
+        assistant.speak("Very good! Please wait, my assistant will read your messages!")
+    else:
+        assistant.speak("You do not have new messages!")
+    for e_id in unread_msg_nums:
+        _, header = imap.fetch(e_id, '(UID BODY[HEADER])')
+        header = header[0][-1]
+        header = "".join(header.split("\r"))
+        header = [h for h in header.split("\n") if h != ""]
+        subject = header[-1]
+        sender = header[-3]
+        _, text = imap.fetch(e_id, '(UID BODY[1])')
+        text = text[0][1]
+        text = "Content :"+text
+        message = sender + ". " + subject + ". " + text
+        read_nicely_text(message, instance_vlc, player_vlc)
+    # Mark them as seen
+    for e_id in unread_msg_nums:
+        imap.store(e_id, '+FLAGS', '\Seen')
+    
+
+
+def send_message(assistant, username, password, receptor_of_interest):
+    msg = MIMEMultipart()
+ 
+    msg['From'] = username
+    msg['To'] = receptor_of_interest
+    msg['Subject'] = "SUBJECT OF THE EMAIL"
+ 
+    body = "TEXT YOU WANT TO SEND"
+     
+    msg.attach(MIMEText(body, 'plain'))
+     
+    filename = "Functions.py"
+    attachment = open(filename, "r")
+ 
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload((attachment).read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', "attachment; filename= " + filename)
+     
+    msg.attach(part)
+ 
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.starttls()
+    server.login(username, password)
+    text = msg.as_string()
+    server.sendmail(username, receptor_of_interest, text)
+    server.quit()
+
