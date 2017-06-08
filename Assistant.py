@@ -10,7 +10,7 @@ from numpy.random import random
 import gensim
 import fileinput
 
-TIME_OUT_CONSTANT = 5
+TIME_OUT_CONSTANT = 10
 PHRASE_TIME_LIMIT = 10
 CENTROID = "centroid"
 WEIGHT = "weight"
@@ -207,18 +207,18 @@ class personal_assistant:
             try:
                 audio = self.sr_recognizer.listen(microphone,timeout=TIME_OUT_CONSTANT, phrase_time_limit=PHRASE_TIME_LIMIT)
             except sr.WaitTimeoutError:
-                pass
+                return ""
         msg = ""
         try:
             msg = self.sr_recognizer.recognize_google(audio)#,language="fr-FR") 
             #msg = self.sr_recognizer.recognize_sphinx(audio)
             print(msg.lower())
         except sr.UnknownValueError:
-            pass#print("Google Speech Recognition could not understand audio")
+            print("Google Speech Recognition could not understand audio")
         except sr.RequestError as e:
             self.speak("Could not request results from Google STT. Check your connection! {0}".format(e))
         except:
-            pass#self.speak("Something it is Wrong! It hurts! Wrong! Wrong! Wrong!")
+            self.speak("Something it is Wrong! It hurts! Wrong! Wrong! Wrong!")
         finally:
             return msg.lower()
 
