@@ -241,7 +241,7 @@ def read_message(assistant, instance_vlc, player_vlc, username, password, sender
         header = "".join(header.split("\r"))
         header = [h for h in header.split("\n") if h != ""]
         subject = header[-1]
-        sender = header[-3]
+        sender = header[-3].split("@")[0]
         _, text = imap.fetch(e_id, '(UID BODY[1])')
         text = text[0][1]
         text = "Content :"+text
@@ -253,26 +253,35 @@ def read_message(assistant, instance_vlc, player_vlc, username, password, sender
     
 
 
-def send_message(assistant, username, password, receptor_of_interest):
-    msg = MIMEMultipart()
- 
+def send_message(assistant, username, password, receptors_of_interest):
+    # Receptor
+    assistant.speak("To whom should I send the email?")
+    txt = assistant.active_listen()
+    if txt not in receptors_of_interest:
+        receptor_of_interest = username
+    else:
+        receptor_of_interest = receptors_of_interest[txt]
+    # Subject
+    assistant.speak("Tell me the subject of the email")
+    subject = assistant.active_listen()
+    # Message
+    assistant.speak("Tell me the body of the message")
+    body =  assistant.active_listen()
+
+    msg = MIMEMultipart() 
     msg['From'] = username
     msg['To'] = receptor_of_interest
-    msg['Subject'] = "SUBJECT OF THE EMAIL"
+    msg['Subject'] = subject
  
-    body = "TEXT YOU WANT TO SEND"
-     
     msg.attach(MIMEText(body, 'plain'))
      
-    filename = "Functions.py"
-    attachment = open(filename, "r")
- 
-    part = MIMEBase('application', 'octet-stream')
-    part.set_payload((attachment).read())
-    encoders.encode_base64(part)
-    part.add_header('Content-Disposition', "attachment; filename= " + filename)
-     
-    msg.attach(part)
+    #filename = "Functions.py"
+    #attachment = open(filename, "r")
+    #part = MIMEBase('application', 'octet-stream')
+    #part.set_payload((attachment).read())
+    #encoders.encode_base64(part)
+    #part.add_header('Content-Disposition', "attachment; filename= " + filename)
+    #msg.attach(part)
  
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.starttls()

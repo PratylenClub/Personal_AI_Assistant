@@ -29,7 +29,7 @@ from Functions import (
     read_message,
     send_message,
     )
-from Keys.login_password import LOGIN_GMAIL, PASSWORD_GMAIL
+from Keys.login_password import LOGIN_GMAIL, PASSWORD_GMAIL,MY_CONTACTS
 from Assistant import personal_assistant,ACTION,PARAMETERS
 # Weather assistant
 key = open("Keys/OWM_KEY.txt","r").read()
@@ -84,8 +84,8 @@ actions_dict = {"hour" : {ACTION: get_hour, PARAMETERS: (time,)},
                 "next youtube song":{ACTION:next_youtube_song,PARAMETERS:(youtube_player,)},
                 "turn off":{ACTION:turn_off,PARAMETERS:()},
                 "download audio":{ACTION:download_music,PARAMETERS:(youtube_player,)},
-                "read emails":{ACTION:read_message,PARAMETERS:(youtube_player,player,instance,LOGIN_GMAIL,PASSWORD_GMAIL)},
-                "send email":{ACTION:send_message,PARAMETERS:(LOGIN_GMAIL,PASSWORD_GMAIL,LOGIN_GMAIL)}
+                "read emails":{ACTION:read_message,PARAMETERS:(instance,player,LOGIN_GMAIL,PASSWORD_GMAIL)},
+                "send email":{ACTION:send_message,PARAMETERS:(LOGIN_GMAIL,PASSWORD_GMAIL,MY_CONTACTS)}
                 }
 
 # Actions triggers
@@ -107,7 +107,7 @@ trigger_dict = {"hour": "Tell me the hour. What time is it.",
                 "download audio":"download audio from youtube.",
                 "read emails":"read my emails.",
                 "send email":"send email.",
-                }
+                }                
 
 # Maximal distance to closest centroid before asking cofirmation
 confirmation_threshold = 0.3
