@@ -10,6 +10,7 @@ Do not hesitate to send us an e-mail if you want to contribute to this project!
 ## TODO
 + [X] Do not use a simple mean but a system of weights to compute the centroid of an action trigger
 + [X] Search new words in more complicated W2V model
++ [ ] Implement sequence alignement algorithm for email address selection
 + [ ] Add local voice recognition module
 + [ ] Learn new words going into google
 + [ ] Add little voice sound trick to avoid the feeling of emptiness while waiting for an answer
@@ -28,8 +29,8 @@ Do not hesitate to send us an e-mail if you want to contribute to this project!
 + [X] Listen Music
 + [X] Read Text
 + [X] Search songs in youtube
-+ [ ] Read E-mails
-+ [ ] Send E-mail
++ [X] Read E-mails
++ [X] Send E-mail
 + [ ] Run a program in background to Remind you things
 + [ ] Add summarizer 
 + [ ] Parse webpage and read content
