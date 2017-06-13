@@ -3,3 +3,6 @@
 *.mp3
 Models/
 Keys/
+tests_for_each_library/recognition_create_dataset/asset/
+tests_for_each_library/recognition_create_dataset/MFCC/
+tests_for_each_library/recognition_create_dataset/learning_batch.csv
