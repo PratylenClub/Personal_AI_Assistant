@@ -59,3 +59,9 @@ plt.legend()
 plt.xlabel('Samples')
 
 plt.show()
+
+"""
+https://docs.scipy.org/doc/scipy-0.19.0/reference/generated/scipy.signal.deconvolve.html
+https://pypi.python.org/pypi/adaptfilt/0.2
+
+"""
