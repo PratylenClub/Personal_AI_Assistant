@@ -41,6 +41,7 @@ huge_w2v_model_path = "Models/glove.6B.300d.bin"
 # https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md?utm_campaign=buffer&utm_content=buffer0df9b&utm_medium=social&utm_source=linkedin.com
 # Synthesizer
 pyttx_engine = pyttsx.init()
+pyttx_engine.setProperty('voice',"com.apple.speech.synthesis.voice.Fred")
 # Speech recognition
 speech_recognizer = sr.Recognizer()
 speech_recognition_microphone = sr.Microphone
