@@ -105,7 +105,7 @@ class SpeechCorpus(object):
         csv_file = pd.read_csv("learning_batch.csv",header = None)  
         for row in csv_file.iterrows():
             file_name, label_temp = row[1]
-            label_temp = map(int,list(label_temp))
+            label_temp = map(int,label_temp.split())
             mfcc_file.append(self._data_path + file_name)
             # label info ( convert to string object for variable-length support )
             label.append(np.asarray(label_temp, dtype=np.int).tostring())
@@ -139,4 +139,5 @@ class SpeechCorpus(object):
         # print info
         tf.sg_info('%s set loaded.(total data=%d, total batch=%d)'
                    % (set_name.upper(), len(label), self.num_batch))
-sp = SpeechCorpus()
+if __name__=="__main__":
+    sp = SpeechCorpus()

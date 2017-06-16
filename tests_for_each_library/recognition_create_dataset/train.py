@@ -1,7 +1,7 @@
 import sugartensor as tf
 from data import SpeechCorpus, voca_size
 from model import *
-
+import os
 
 
 # set log level to debug
@@ -43,8 +43,14 @@ def get_loss(opt):
 #
 # train
 #
-tf.sg_train(lr=0.0001, loss=get_loss(input=inputs, target=labels, seq_len=seq_len),
-            ep_size=data.num_batch, max_ep=50)
+with tf.Session() as sess:
+    tf.sg_init(sess)
+    saver = tf.train.Saver()
+    if os.path.isdir("asset/train"):
+        saver.restore(sess, tf.train.latest_checkpoint('asset/train'))
+    tf.sg_train(lr=0.0001, loss=get_loss(input=inputs, target=labels, seq_len=seq_len),
+                   ep_size=data.num_batch, max_ep=20)
+    
 
 
 

@@ -14,7 +14,7 @@ def save_recording(wave_file_name, wave, sentence, csv_file_name):
     time_id = strftime("%d_%b_%Y_%H_%M_%S", gmtime())
     target_file_name = wave_file_name.split(".")[0]+time_id+".npy"
     print sentence
-    label = "".join(map(str,data.str2index(unidecode(sentence))))
+    label = " ".join(map(str,data.str2index(unidecode(sentence))))
     file_csv = open(csv_file_name,"a")
     file_csv.write(",".join([target_file_name,label])+"\n")
     file_csv.close()

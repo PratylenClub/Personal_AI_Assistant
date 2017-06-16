@@ -22,4 +22,16 @@ for voice in voices:
     else:
         print "other",voice.languages,voice.id
     """
+engine = pyttsx.init()
+rate = engine.getProperty('rate')
+engine.setProperty('rate', rate+50)
+engine.say('The quick brown fox jumped over the lazy dog.')
 engine.runAndWait()
+
+engine = pyttsx.init()
+volume = engine.getProperty('volume')
+engine.setProperty('volume', volume-0.25)
+engine.say('The quick brown fox jumped over the lazy dog.')
+engine.runAndWait()
+
+#http://pyttsx.readthedocs.io/en/latest/engine.html
